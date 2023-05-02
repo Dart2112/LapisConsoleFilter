@@ -1,0 +1,4 @@
+name: LapisConsoleFilter
+version: '${version}'
+main: net.lapismc.lapisconsolefilter.LapisConsoleFilter
+api-version: 1.19

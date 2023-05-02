@@ -1,0 +1,5 @@
+#The console lines will be hidden if they contain every part of each line
+Filters:
+  - "com.mojang.authlib.GameProfile|shepan"
+  - "com.mojang.authlib.GameProfile|ServerOverflow"
+  - "com.mojang.authlib.GameProfile|schesser"
