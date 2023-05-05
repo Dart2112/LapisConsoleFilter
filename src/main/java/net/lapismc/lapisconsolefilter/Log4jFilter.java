@@ -65,17 +65,19 @@ public class Log4jFilter {
 
     private boolean shouldBlock(String msg) {
         for (String filter : plugin.getConfig().getStringList("Filters")) {
-            boolean containsAllStrings = true;
-            for (String subString : filter.split("\\|")) {
-                if (!msg.contains(subString)) {
-                    containsAllStrings = false;
-                    break;
-                }
-            }
-            if (containsAllStrings)
+            if (checkSubStrings(msg, filter.split(","))) {
                 return true;
+            }
         }
         return false;
+    }
+
+    private boolean checkSubStrings(String msg, String[] parts) {
+        for (String part : parts) {
+            if (!msg.contains(part))
+                return false;
+        }
+        return true;
     }
 
 
