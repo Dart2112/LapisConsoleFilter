@@ -1,5 +1,9 @@
+#How many minutes of logs should be stored to check for spam connections, only failed connections are stored so this number can be set high if wanted
+MinutesToStore: 10
+#How many failed connection attempts must occur in the time set in MinutesToStore, before a new filter is added
+Threshold: 5
+
 #The console lines will be hidden if they contain every part of each line
 Filters:
   - "com.mojang.authlib.GameProfile,shepan"
   - "com.mojang.authlib.GameProfile,ServerOverflow"
-  - "com.mojang.authlib.GameProfile,schesser"
