@@ -13,8 +13,8 @@ public final class LapisConsoleFilter extends LapisCorePlugin {
         saveDefaultConfig();
         fileWatcher = new LapisCoreFileWatcher(this);
         FilterManager manager = new FilterManager(this);
-        new Log4JFilter(this).initialize();
-        JavaLoggerFilter javaFilter = new JavaLoggerFilter(this);
+        new Log4JFilter(manager).initialize();
+        JavaLoggerFilter javaFilter = new JavaLoggerFilter(manager);
         Bukkit.getScheduler().runTask(this, javaFilter::registerJavaFilter);
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, manager::processLogs, 20 * 60, 20 * 60);
         super.onEnable();

@@ -1,7 +1,6 @@
 package net.lapismc.lapisconsolefilter.filters;
 
 import net.lapismc.lapisconsolefilter.FilterManager;
-import net.lapismc.lapisconsolefilter.LapisConsoleFilter;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Marker;
@@ -10,9 +9,12 @@ import org.apache.logging.log4j.core.LogEvent;
 import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.message.Message;
 
-public class Log4JFilter extends FilterManager implements Filter {
-    public Log4JFilter(LapisConsoleFilter plugin) {
-        super(plugin);
+public class Log4JFilter implements Filter {
+
+    private final FilterManager manager;
+
+    public Log4JFilter(FilterManager manager) {
+        this.manager = manager;
     }
 
     @Override
@@ -26,7 +28,7 @@ public class Log4JFilter extends FilterManager implements Filter {
     }
 
     private Result getResult(String msg) {
-        return shouldBlock(msg) ? Result.DENY : Result.ACCEPT;
+        return manager.shouldBlock(msg) ? Result.DENY : Result.ACCEPT;
     }
 
     @Override

@@ -22,7 +22,7 @@ plugins {
 
 group = 'net.lapismc'
 archivesBaseName = "LapisConsoleFilter"
-version = '0.1.0'
+version = '1.0.0'
 sourceCompatibility = '11'
 targetCompatibility = '11'
 defaultTasks 'clean', 'build', 'shadowJar', 'install'
@@ -53,7 +53,7 @@ processResources {
 }
 
 shadowJar {
-    archiveFileName.set(archivesBaseName + "-" + project.getVersion() + ".jar")
+    archiveFileName.set(archivesBaseName + ".jar")
     exclude 'javax/**'
     relocate("net.lapismc.lapiscore", "net.lapismc.lapisconsolefilter.core")
 }

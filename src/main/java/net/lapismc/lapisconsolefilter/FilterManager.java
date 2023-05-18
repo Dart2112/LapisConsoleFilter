@@ -9,7 +9,7 @@ public class FilterManager {
 
     private final LapisConsoleFilter plugin;
     //Long is the UTC time that a message was logged, String is the IPAddress pulled from the log
-    private final HashMap<Long, String> ipAddresses = new HashMap<>();
+    private static final HashMap<Long, String> ipAddresses = new HashMap<>();
     private List<String> filters;
 
     public FilterManager(LapisConsoleFilter plugin) {
@@ -59,7 +59,6 @@ public class FilterManager {
             }
         }
         if (!shouldBlock && msg.contains("com.mojang.authlib.GameProfile")) {
-            System.out.println("Debug, disconnect message");
             //This is a message of a player not really joining that might need to  be hidden if they are repeating
             //Example:
             //com.mojang.authlib.GameProfile@43f110b6[id=<null>,name=aghqagfqdcqaij,properties={},legacy=false] (/193.35.18.113:52670) lost connection: Disconnected
@@ -68,7 +67,6 @@ public class FilterManager {
             ipAddress = ipAddress.substring(ipAddress.lastIndexOf("/") + 1, ipAddress.indexOf(":"));
             //Store the IP Address and the current time into a hashmap
             ipAddresses.put(System.currentTimeMillis(), ipAddress);
-            System.out.println("IPAddress, " + ipAddress);
         }
         return shouldBlock;
     }
