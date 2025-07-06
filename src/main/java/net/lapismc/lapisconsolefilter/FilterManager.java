@@ -58,7 +58,11 @@ public class FilterManager {
                 shouldBlock = true;
             }
         }
-        if (!shouldBlock && msg.contains("lost connection:")) {
+        //There is a message sent by a player disconnecting that could trip this, but it doesnt include an IP
+        //So we check if the message contains an IP before going further
+        //All IPs start with "/", so we can just check for that
+        //dart2112 lost connection: Disconnected
+        if (!shouldBlock && msg.contains("lost connection:") && msg.contains("/")) {
             //This is a message of a player not really joining that might need to  be hidden if they are repeating
             //Example:
             //WiredNetworks (/176.65.148.220:27146) lost connection: Disconnected
