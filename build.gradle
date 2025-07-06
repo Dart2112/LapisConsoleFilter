@@ -16,33 +16,33 @@
 
 plugins {
     id 'java'
-    id 'maven'
-    id "com.github.johnrengelman.shadow" version "5.2.0"
+    id 'maven-publish'
+    id "com.github.johnrengelman.shadow" version "8.1.1"
 }
 
 group = 'net.lapismc'
 archivesBaseName = "LapisConsoleFilter"
-version = '1.0.0'
-sourceCompatibility = '11'
-targetCompatibility = '11'
-defaultTasks 'clean', 'build', 'shadowJar', 'install'
+version = '1.1.0'
+sourceCompatibility = '17'
+targetCompatibility = '17'
+defaultTasks 'clean', 'build', 'shadowJar'
 
 repositories {
     mavenCentral()
-    mavenLocal()
+    //Personal Repo
+    maven {
+        name = "lapismc-repo"
+        url = "https://maven.lapismc.net/repository/maven/"
+    }
     //Spigot Repo
     maven {
         url = uri('https://hub.spigotmc.org/nexus/content/groups/public/')
     }
-    //Essentials Repo
-    maven {
-        url = uri('https://repo.essentialsx.net/releases/')
-    }
 }
 
 dependencies {
-    implementation 'net.lapismc:LapisCore:1.12.4'
-    compileOnly 'org.spigotmc:spigot-api:1.19.4-R0.1-SNAPSHOT'
+    implementation 'net.lapismc:LapisCore:1.12.19'
+    compileOnly 'org.spigotmc:spigot-api:1.21.7-R0.1-SNAPSHOT'
     compileOnly 'org.apache.logging.log4j:log4j-core:2.17.2'
 }
 
@@ -58,6 +58,6 @@ shadowJar {
     relocate("net.lapismc.lapiscore", "net.lapismc.lapisconsolefilter.core")
 }
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }

@@ -35,8 +35,8 @@ public class FilterManager {
         for (String ipAddress : numberOfLogs.keySet()) {
             if (numberOfLogs.get(ipAddress) >= threshold) {
                 //Create a new filter with this IP
-                filters.add("com.mojang.authlib.GameProfile," + ipAddress);
-                plugin.getLogger().info("Added a filter for IPAddress " + ipAddress + " because of failed connection spam");
+                filters.add("lost connection:," + ipAddress);
+                plugin.getLogger().info("Added a filter for IP Address " + ipAddress + " because of failed connection spam");
                 wasChanged = true;
                 Bukkit.getScheduler().runTask(plugin, () -> ipAddresses.values().removeIf(s -> s.equals(ipAddress)));
             }
@@ -58,12 +58,14 @@ public class FilterManager {
                 shouldBlock = true;
             }
         }
-        if (!shouldBlock && msg.contains("com.mojang.authlib.GameProfile")) {
+        if (!shouldBlock && msg.contains("lost connection:")) {
             //This is a message of a player not really joining that might need to  be hidden if they are repeating
             //Example:
-            //com.mojang.authlib.GameProfile@43f110b6[id=<null>,name=aghqagfqdcqaij,properties={},legacy=false] (/193.35.18.113:52670) lost connection: Disconnected
+            //WiredNetworks (/176.65.148.220:27146) lost connection: Disconnected
             //Extract the IP address from the string
-            String ipAddress = msg.replace(") lost connection: Disconnected", "");
+            String ipAddress = msg.replace(") lost connection: Disconnected", "")
+                    .replace(" lost connection: Internal Exception: io.netty.handler.codec.DecoderException:" +
+                            " Failed to decode packet 'serverbound/minecraft:hello'", "");
             ipAddress = ipAddress.substring(ipAddress.lastIndexOf("/") + 1, ipAddress.indexOf(":"));
             //Store the IP Address and the current time into a hashmap
             ipAddresses.put(System.currentTimeMillis(), ipAddress);
