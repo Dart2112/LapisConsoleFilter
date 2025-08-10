@@ -58,7 +58,7 @@ public class FilterManager {
                 shouldBlock = true;
             }
         }
-        //There is a message sent by a player disconnecting that could trip this, but it doesnt include an IP
+        //There is a message sent by a player disconnecting that could trip this, but it doesn't include an IP
         //So we check if the message contains an IP before going further
         //All IPs start with "/", so we can just check for that
         //dart2112 lost connection: Disconnected
@@ -70,9 +70,13 @@ public class FilterManager {
             String ipAddress = msg.replace(") lost connection: Disconnected", "")
                     .replace(" lost connection: Internal Exception: io.netty.handler.codec.DecoderException:" +
                             " Failed to decode packet 'serverbound/minecraft:hello'", "");
-            ipAddress = ipAddress.substring(ipAddress.lastIndexOf("/") + 1, ipAddress.indexOf(":"));
-            //Store the IP Address and the current time into a hashmap
-            ipAddresses.put(System.currentTimeMillis(), ipAddress);
+            try {
+                ipAddress = ipAddress.substring(ipAddress.lastIndexOf("/") + 1, ipAddress.indexOf(":"));
+                //Store the IP Address and the current time into a hashmap
+                ipAddresses.put(System.currentTimeMillis(), ipAddress);
+            } catch (IndexOutOfBoundsException ignored) {
+                //Ignore this since it's probably a malformed log message
+            }
         }
         return shouldBlock;
     }
